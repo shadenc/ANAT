@@ -5,6 +5,19 @@ This project integrates **vehicle speed detection** using CCTV footage with an *
 
 The project is designed for use in traffic management, law enforcement, and other smart city applications where it is crucial to detect speed violations in real-time and maintain records for future reference.
 
+## Why ANAT?
+
+The system is named **ANAT** (أَناة), a word derived from Arabic meaning **patience** and **deliberation**. The choice of this name reflects the broader goal of the project, which is to encourage drivers to slow down, be more patient, and ultimately drive more safely.
+
+Just as **أَناة** signifies taking actions thoughtfully and calmly, this system aims to instill these values in drivers by enforcing speed regulations. The hope is that through the presence of this technology, drivers will adopt safer habits, reducing the risks of speeding and improving road safety overall. In Arabic, **أَناة** carries multiple connotations:
+
+- **أَنْجَزَ عَمَلَهُ في أَناةٍ**: completing work with patience and care.
+- **طَويلُ الأَناةِ**: being long-suffering and patient.
+- **إِنَّهُ لَذُو أَناةٍ وَرِفْقٍ**: possessing calmness and gentleness.
+
+This name encapsulates the essence of what the system stands for—a technology that doesn't just punish violators but encourages a more composed, deliberate approach to driving.
+
+
 ## **Key Features**
 - **Real-time vehicle detection and speed estimation** using computer vision techniques.
 - **Automatic Number Plate Recognition (ANPR)** for vehicles exceeding speed limits.
