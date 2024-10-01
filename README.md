@@ -1,3 +1,5 @@
+![ANAT Logo](assets/ANAT_logo.png)
+
 # **Speed Detection and ANPR Integration Project**
 
 ## **Overview**
