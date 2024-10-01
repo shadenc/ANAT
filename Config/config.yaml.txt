@@ -1,0 +1,7 @@
+video_path: 'path/to/your/video.mp4'
+LP_model: 'path/to/your/yolo_model.pt'
+calibration_file: 'path/to/camera_calibration.json'
+road_mask_file: 'path/to/road_mask.npy'
+gcs_bucket_name: 'your-gcs-bucket'
+detection_confidence: 0.4
+speed_threshold: 80
