@@ -12,11 +12,11 @@ easydict
 tqdm
 paddleocr
 google-cloud-storage
+google-cloud-vision
 easyocr
 langid
 torchvision
 absl-py
-opencv-python-headless
 tensorflow
 keras
 torch
