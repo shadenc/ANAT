@@ -157,7 +157,7 @@ Download the service account key file and update your environment variables acco
   ```bash
   python src/main.py --config config/config.yaml
   ```
---
+---
 
 ## **Running the Project with Docker**
 
