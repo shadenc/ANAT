@@ -169,6 +169,7 @@ Download the service account key file and update your environment variables acco
  ```bash
   docker run -e GOOGLE_APPLICATION_CREDENTIALS="/path/to/service-account.json" speed-anpr-app 
 ```
+---
 ## **License**
 This project is licensed under the MIT License - see the LICENSE file for details.
 
