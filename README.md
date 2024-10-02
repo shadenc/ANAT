@@ -133,8 +133,8 @@ This name encapsulates the essence of what the system stands for—a technology 
 ### **Installation Steps**
 
 1. **Clone the repository**:
-   ```bash
-   git clone https://github.com/your-username/speed-anpr.git
+   ```bash  
+   git clone https://github.com/your-username/ANAT.git
    cd speed-anpr
 2. **Install the required dependencies**:
    ```bash
