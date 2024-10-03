@@ -191,5 +191,5 @@ class CameraCalibration:
 
     def apply_ipm(self, frame):
         if self.ipm_matrix is None:
-            raise ValueError("IPM matrix has not been computed. Call calibrate_camera first.")
+            raise ValueError("IPM matrix is not initialized. Call calibrate_camera first.")
         return cv2.warpPerspective(frame, self.ipm_matrix, (self.width, self.height))
