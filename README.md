@@ -145,13 +145,14 @@ Download the service account key file and update your environment variables acco
 
 4.**Update the config.yaml file**:
   ```bash
-  video_path: 'path/to/your/video.mp4'
-  LP_model: 'path/to/your/yolo_model.pt'
-  calibration_file: 'path/to/camera_calibration.json'
-  road_mask_file: 'path/to/road_mask.npy'
-  gcs_bucket_name: 'your-gcs-bucket'
-  detection_confidence: 0.4
-  speed_threshold: 80
+video_path: 'path/to/your/video.mp4'
+LP_model: 'path/to/your/yolo_model.pt'
+calibration_file: 'path/to/camera_calibration.json'
+road_mask_file: 'path/to/road_mask.npy'
+gcs_bucket_name: 'your-gcs-bucket'
+detection_confidence: 0.4
+frame_skip: 5
+speed_threshold: 80
 ```
 5.**Run the project**:
   ```bash
