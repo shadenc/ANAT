@@ -4,4 +4,5 @@ calibration_file: 'path/to/camera_calibration.json'
 road_mask_file: 'path/to/road_mask.npy'
 gcs_bucket_name: 'your-gcs-bucket'
 detection_confidence: 0.4
+frame_skip: 5
 speed_threshold: 80
