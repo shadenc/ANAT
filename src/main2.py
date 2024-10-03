@@ -10,7 +10,7 @@ from speed_detection_module.vehicle_tracker import VehicleTracker
 from speed_detection_module.speed_calculator import SpeedCalculator
 from speed_detection_module.depth_estimation import DepthEstimationModel
 from speed_detection_module.masker import Masker
-from speed_detection_module.optical_flow_estimator import OpticalFlowEstimator
+from speed_detection_module.speed_estimator import SpeedEstimator
 from ultralytics import YOLO
 from anpr_module.Help_util import assign_car, preprocess_frame, read_license_plate, write_csv # ,read_czech_license_plate (Check if works)
 from google.cloud import storage
@@ -43,6 +43,7 @@ class IntegratedVideoProcessor:
         self.detection_confidence = self.config['detection_confidence']
         self.speed_threshold = self.config['speed_threshold']
         self.gcs_bucket_name = self.config['gcs_bucket_name']
+        self.frame_skip = self.config['frame_skip']
 
         try:
             self.license_plate_detector = YOLO(self.config['LP_model'])
@@ -55,8 +56,9 @@ class IntegratedVideoProcessor:
         self.car_detection = CarDetection()
         self.depth_model = DepthEstimationModel()
         self.tracker = VehicleTracker(max_frames_to_skip=10, min_hits=3, max_track_length=30)
-        self.speed_calculator = SpeedCalculator(smoothing_window=5, speed_confidence_threshold=0.8, max_history=100)
-        self.flow_estimator = OpticalFlowEstimator()
+        self.speed_calculator = SpeedCalculator(smoothing_window=5, max_history=100)
+        self.meters_per_pixel = 0.1  # This is an example value, adjust based on your setup
+        self.speed_estimator = None  # We'll initialize this after camera calibration
 
         # Initialize Google Cloud Storage
         try:
@@ -124,6 +126,39 @@ class IntegratedVideoProcessor:
             draw_line(corners[i], corners[i + 4])
 
         return img
+
+    def select_speed_lines(self, frame):
+        lines = []
+
+        def mouse_callback(event, x, y, flags, param):
+            if event == cv2.EVENT_LBUTTONDOWN:
+                if len(lines) < 2:
+                    lines.append(y)
+                    cv2.line(frame, (0, y), (frame.shape[1], y), (0, 255, 0), 2)
+                    cv2.imshow('Select Speed Lines', frame)
+
+                if len(lines) == 2:
+                    cv2.setMouseCallback('Select Speed Lines', lambda *args: None)
+
+        clone = frame.copy()
+        cv2.namedWindow('Select Speed Lines')
+        cv2.setMouseCallback('Select Speed Lines', mouse_callback)
+
+        while len(lines) < 2:
+            cv2.imshow('Select Speed Lines', frame)
+            key = cv2.waitKey(1) & 0xFF
+            if key == ord('r'):
+                frame = clone.copy()
+                lines = []
+            elif key == 27:  # ESC key
+                break
+
+        cv2.destroyWindow('Select Speed Lines')
+
+        if len(lines) == 2:
+            return sorted(lines)
+        else:
+            return None
 
     def process_frame(self):
         while True:
@@ -256,8 +291,26 @@ class IntegratedVideoProcessor:
             self.calibration.save_calibration(self.calibration_file)
             self.logger.info(f"Saved camera calibration to {self.calibration_file}")
 
+        dummy_frame = np.zeros((self.height, self.width), dtype=np.uint8)
+        ipm_frame = self.calibration.apply_ipm(dummy_frame)
+        ipm_height, ipm_width = ipm_frame.shape[:2]
+
+        print("Please select two lines for speed calculation on the IPM view...")
+        lines = self.select_speed_lines(ipm_frame)
+        if lines is None:
+            print("Line selection cancelled. Using default values.")
+            line1_y = int(ipm_height * 0.2)
+            line2_y = int(ipm_height * 0.8)
+        else:
+            line1_y, line2_y = lines
+
+        self.speed_estimator = SpeedEstimator(ipm_height, ipm_width, self.fps, self.meters_per_pixel, line1_y, line2_y)
+        print(f"SpeedEstimator initialized with IPM dimensions: {ipm_width}x{ipm_height}")
+        print(f"Speed calculation lines set at y={line1_y} and y={line2_y}")
+
         # Reset video capture to the beginning
         self.cap.set(cv2.CAP_PROP_POS_FRAMES, 0)
+        print("Video capture reset to beginning.")
 
         # Get necessary matrices
         self.ipm_matrix = self.calibration.ipm_matrix
