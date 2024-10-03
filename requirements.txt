@@ -1,25 +1,46 @@
-opencv-python
-ultralytics
+# Core libraries
 numpy
-pandas
-matplotlib
-Pillow
-scipy
-paddlepaddle
-pymuPDF
-lmdb
-easydict
-tqdm
-paddleocr
-google-cloud-storage
-google-cloud-vision
-easyocr
-langid
-torchvision
-absl-py
-tensorflow
-keras
+opencv-python
+opencv-python-headless
 torch
+torchvision
+tensorflow
+pymongo
+pandas
+scipy
+
+# YOLOv9 dependencies
+ultralytics
+
+# Transformers
 transformers
 timm
+
+# Image processing and computer vision
+scikit-image
+Pillow
+matplotlib
+seaborn
 filterpy
+
+# Deep learning and machine learning
+keras
+paddlepaddle
+paddleocr
+
+# OCR Libraries
+google-cloud-vision
+easyocr
+pymuPDF
+langid
+
+# Utility libraries
+tqdm
+easydict
+absl-py
+
+# Google Cloud Storage (for storage needs)
+google-cloud-storage
+
+# Additional libraries
+lmdb
